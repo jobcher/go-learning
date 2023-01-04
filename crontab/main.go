@@ -12,7 +12,7 @@ func main() {
 		err    error
 	)
 	//生成cmd
-	cmd = exec.Command("C:\\cygwin64\\bin\\bash.exe", "-c", "echo hello")
+	cmd = exec.Command("bash", "-c", "ls -l;echo hello")
 	//执行命令
 	if output, err = cmd.CombinedOutput(); err != nil {
 		fmt.Println(err)

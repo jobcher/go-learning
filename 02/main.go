@@ -30,7 +30,7 @@ func main() {
 			err    error
 		)
 
-		cmd = exec.CommandContext(ctx, "C:\\cygwin64\\bin\\bash.exe", "-c", "sleep 2;echo hello")
+		cmd = exec.CommandContext(ctx, "bash", "-c", "sleep 2;echo hello")
 
 		output, err = cmd.CombinedOutput()
 
