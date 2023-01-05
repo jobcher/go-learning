@@ -1,4 +1,3 @@
-// main包
 package main
 
 import "fmt"
