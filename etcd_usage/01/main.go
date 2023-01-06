@@ -18,21 +18,25 @@ func main() {
 	)
 
 	config = clientv3.Config{
-		Endpoints:   []string{"127.0.0.1:2379"},
-		DialTimeout: 20 * time.Second,
+		Endpoints:   []string{"127.0.0.1:2379"}, // 集群列表
+		DialTimeout: 5 * time.Second,
 	}
 
+	// 建立一个客户端
 	if client, err = clientv3.New(config); err != nil {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println("开始连接:", err)
 
+	// 用于读写etcd的键值对
 	kv = clientv3.NewKV(client)
-	if putResp, err = kv.Put(context.TODO(), "/cron/jobs/job1", "hello"); err != nil {
-		fmt.Println(err)
 
+	if putResp, err = kv.Put(context.TODO(), "/cron/jobs/job1", "123", clientv3.WithPrevKV()); err != nil {
+		fmt.Println(err)
 	} else {
-		fmt.Println("Revison", putResp.Header.Revision)
+		fmt.Println("Revision:", putResp.Header.Revision)
+		if putResp.PrevKv != nil { // 打印hello
+			fmt.Println("PrevValue:", string(putResp.PrevKv.Value))
+		}
 	}
 }
