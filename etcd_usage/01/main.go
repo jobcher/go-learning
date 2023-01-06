@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -9,9 +10,11 @@ import (
 
 func main() {
 	var (
-		config clientv3.Config
-		client *clientv3.Client
-		err    error
+		config  clientv3.Config
+		client  *clientv3.Client
+		err     error
+		kv      clientv3.KV
+		putResp *clientv3.PutResponse
 	)
 
 	config = clientv3.Config{
@@ -24,5 +27,12 @@ func main() {
 		return
 	}
 	fmt.Println("开始连接:", err)
-	client = client
+
+	kv = clientv3.NewKV(client)
+	if putResp, err = kv.Put(context.TODO(), "/cron/jobs/job1", "hello"); err != nil {
+		fmt.Println(err)
+
+	} else {
+		fmt.Println("Revison", putResp.Header.Revision)
+	}
 }
