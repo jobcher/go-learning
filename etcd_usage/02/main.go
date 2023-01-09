@@ -17,7 +17,7 @@ func main() {
 		client  *clientv3.Client
 		err     error
 		kv      clientv3.KV
-		putResp *clientv3.PutResponse
+		getResp *clientv3.GetResponse
 	)
 
 	config = clientv3.Config{
@@ -31,15 +31,12 @@ func main() {
 		return
 	}
 
-	// 用于读写etcd的键值对
+	// 用于读etcd的键值对
 	kv = clientv3.NewKV(client)
-
-	if putResp, err = kv.Put(context.TODO(), "/cron/jobs/job1", "jobcher", clientv3.WithPrevKV()); err != nil {
+	if getResp, err = kv.Get(context.TODO(), "/cron/jobs/job1" /*,clientv3.WithCountOnly()*/); err != nil {
 		fmt.Println(err)
 	} else {
-		fmt.Println("Revision:", putResp.Header.Revision)
-		if putResp.PrevKv != nil {
-			fmt.Println("PrevValue:", string(putResp.PrevKv.Value))
-		}
+		fmt.Println(getResp.Kvs, getResp.Count)
 	}
+
 }
