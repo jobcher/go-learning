@@ -16,6 +16,7 @@ func main() {
 
 	a = app.New()
 	w = a.NewWindow("Hello")
+	w.Resize(fyne.NewSize(500, 400))
 
 	hello = widget.NewLabel("Hello jobcher")
 	w.SetContent(container.NewVBox(
@@ -23,8 +24,8 @@ func main() {
 		widget.NewButton("Hi!", func() {
 			hello.SetText("Welcome :)")
 		}),
-		widget.NewButton("return", func() {
-			hello.SetText("Hello jobcher")
+		widget.NewButton("quit", func() {
+			a.Quit()
 		}),
 	))
 
