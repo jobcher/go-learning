@@ -1,5 +1,5 @@
-# go-test
-go 小测试
+# go-learing
+go 学习
 
 ## 安装环境
 安装包下载  
